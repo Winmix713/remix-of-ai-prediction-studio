@@ -56,10 +56,28 @@ const AIStatusMessage = memo<AIStatusMessageProps>(({
   if (!message && !error) return null;
   const isError = !!error;
   const displayMessage = error || message;
-  return <div className={`flex items-start gap-2 p-2 rounded-lg text-xs ${isError ? 'bg-destructive/10 text-destructive border border-destructive/20' : 'bg-primary/10 text-primary border border-primary/20'}`} role="alert" aria-live="polite">
-      {isError ? <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" aria-hidden="true" /> : <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" aria-hidden="true" />}
-      <span>{displayMessage}</span>
-    </div>;
+  return (
+    <div 
+      className={`
+        flex items-start gap-3 p-3.5 rounded-2xl text-xs
+        backdrop-blur-sm border animate-fade-in
+        ${isError 
+          ? 'bg-red-500/10 text-red-400 border-red-500/20' 
+          : 'bg-inspector-active/10 text-inspector-accent border-inspector-active/20'
+        }
+      `} 
+      role="alert" 
+      aria-live="polite"
+    >
+      <div className={`p-1.5 rounded-lg ${isError ? 'bg-red-500/20' : 'bg-inspector-active/20'}`}>
+        {isError 
+          ? <AlertCircle className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" /> 
+          : <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" aria-hidden="true" />
+        }
+      </div>
+      <span className="leading-relaxed pt-0.5">{displayMessage}</span>
+    </div>
+  );
 });
 AIStatusMessage.displayName = 'AIStatusMessage';
 
@@ -109,14 +127,27 @@ const QuickSuggestions = memo<QuickSuggestionsProps>(({
   onSelect,
   disabled
 }) => {
-  return <div className="space-y-1.5">
-      <span className="text-[10px] text-muted-foreground">Quick suggestions:</span>
-      <div className="flex flex-wrap gap-1" role="list">
-        {QUICK_SUGGESTIONS.map(suggestion => <button key={suggestion} type="button" onClick={() => onSelect(suggestion)} disabled={disabled} className="px-2 py-1 text-[10px] rounded-md bg-secondary hover:bg-secondary/80 text-secondary-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed" role="listitem">
+  return (
+    <div className="space-y-2.5 pt-2 border-t border-inspector-border/30">
+      <span className="text-[0.68rem] text-inspector-text-muted font-medium tracking-wide">
+        Quick suggestions
+      </span>
+      <div className="flex flex-wrap gap-2" role="list">
+        {QUICK_SUGGESTIONS.map(suggestion => (
+          <button 
+            key={suggestion} 
+            type="button" 
+            onClick={() => onSelect(suggestion)} 
+            disabled={disabled} 
+            className="inspector-suggestion-pill disabled:opacity-40 disabled:cursor-not-allowed disabled:transform-none" 
+            role="listitem"
+          >
             {suggestion}
-          </button>)}
+          </button>
+        ))}
       </div>
-    </div>;
+    </div>
+  );
 });
 QuickSuggestions.displayName = 'QuickSuggestions';
 
@@ -149,17 +180,36 @@ const AIPromptForm = memo<AIPromptFormProps>(({
   state,
   generatedClasses
 }) => {
-  return <form onSubmit={onSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="ai-prompt-textarea" className="text-xs font-medium text-muted-foreground mb-2 block">
-          Describe what you want to change:
+  return (
+    <form onSubmit={onSubmit} className="space-y-5">
+      <div className="inspector-card p-4 space-y-3">
+        <label 
+          htmlFor="ai-prompt-textarea" 
+          className="text-[0.72rem] font-semibold text-inspector-text flex items-center gap-2"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-inspector-accent" aria-hidden="true" />
+          Describe your styling changes
         </label>
         <div className="relative">
-          <Textarea id="ai-prompt-textarea" placeholder="e.g. Make corners rounder and text dark blue..." value={promptValue} onChange={e => onPromptChange(e.target.value)} className="w-full resize-none min-h-[120px] text-xs rounded-xl pb-12" disabled={isLoading} aria-label="AI prompt input" />
-          <div className="absolute bottom-3 left-3 z-10 flex gap-1">
-            <div className="flex items-center rounded-lg bg-card border border-border shadow-sm p-2 py-1 gap-1 text-[10px]">
-              <Sparkles className="h-3 w-3 text-primary" aria-hidden="true" />
-              <span>Gemini Flash</span>
+          <Textarea 
+            id="ai-prompt-textarea" 
+            placeholder="e.g. Make corners rounder and add a subtle blue glow..." 
+            value={promptValue} 
+            onChange={e => onPromptChange(e.target.value)} 
+            className="
+              w-full resize-none min-h-[140px] text-xs rounded-xl pb-14
+              bg-inspector-input-bg border-inspector-input-border
+              text-inspector-text placeholder:text-inspector-text-disabled
+              focus:border-inspector-input-focus focus:ring-2 focus:ring-inspector-active/25
+              transition-all duration-200
+            " 
+            disabled={isLoading} 
+            aria-label="AI prompt input" 
+          />
+          <div className="absolute bottom-3 left-3 right-3 z-10 flex justify-between items-center">
+            <div className="flex items-center gap-1.5 rounded-lg bg-inspector-section/80 border border-inspector-border/40 px-2.5 py-1.5 text-[0.65rem] text-inspector-text-muted backdrop-blur-sm">
+              <Sparkles className="h-3 w-3 text-inspector-accent" aria-hidden="true" />
+              <span className="font-medium">Gemini Flash</span>
             </div>
           </div>
         </div>
@@ -169,23 +219,54 @@ const AIPromptForm = memo<AIPromptFormProps>(({
       
       <SelectedElementInfo tag={state.tag} elementId={state.elementId} generatedClasses={generatedClasses} />
 
-      <div className="flex gap-2">
-        <Button type="submit" disabled={!promptValue.trim() || isLoading} className="flex-1 gap-2">
-          {isLoading ? <>
-              <Loader2 className="w-3 h-3 animate-spin" aria-hidden="true" />
+      <div className="flex gap-3">
+        <button 
+          type="submit" 
+          disabled={!promptValue.trim() || isLoading} 
+          className="
+            flex-1 h-11 rounded-xl font-semibold text-[0.75rem]
+            inline-flex items-center justify-center gap-2
+            bg-gradient-to-r from-inspector-active to-inspector-accent-soft
+            text-inspector-bg
+            hover:shadow-lg hover:shadow-inspector-active/30
+            active:scale-[0.98]
+            disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+            transition-all duration-200
+          "
+        >
+          {isLoading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
               Processing...
-            </> : <>
-              <Send className="w-3 h-3" aria-hidden="true" />
+            </>
+          ) : (
+            <>
+              <Send className="w-4 h-4" aria-hidden="true" />
               Apply with AI
-            </>}
-        </Button>
-        <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
+            </>
+          )}
+        </button>
+        <button 
+          type="button" 
+          onClick={onCancel} 
+          disabled={isLoading}
+          className="
+            h-11 px-5 rounded-xl font-medium text-[0.75rem]
+            border border-inspector-border/60 bg-inspector-section/60
+            text-inspector-text-secondary
+            hover:bg-inspector-hover hover:text-inspector-text
+            active:scale-[0.98]
+            disabled:opacity-50 disabled:cursor-not-allowed
+            transition-all duration-200
+          "
+        >
           Cancel
-        </Button>
+        </button>
       </div>
       
       <QuickSuggestions onSelect={onPromptChange} disabled={isLoading} />
-    </form>;
+    </form>
+  );
 });
 AIPromptForm.displayName = 'AIPromptForm';
 
@@ -296,49 +377,103 @@ const EditorView = memo<EditorViewProps>(({
   updateNestedState,
   updateDeepNestedState
 }) => {
-  return <div className="space-y-3">
+  return (
+    <div className="space-y-4">
       {/* Breakpoint Selector - Premium Design */}
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex bg-inspector-section/60 rounded-full p-[3px] border border-inspector-border/40">
-          {BREAKPOINTS.map(bp => <button key={bp.value} type="button" onClick={() => onBreakpointChange(bp.value as Breakpoint)} className={`
-                px-2.5 py-1 text-[0.65rem] font-medium rounded-full
+      <div className="flex items-center justify-between">
+        <div className="flex bg-inspector-section/70 rounded-2xl p-1 border border-inspector-border/30 shadow-sm">
+          {BREAKPOINTS.map(bp => (
+            <button 
+              key={bp.value} 
+              type="button" 
+              onClick={() => onBreakpointChange(bp.value as Breakpoint)} 
+              className={`
+                px-3 py-1.5 text-[0.68rem] font-semibold rounded-xl
                 transition-all duration-200 ease-out
-                ${currentBreakpoint === bp.value ? 'bg-inspector-text text-inspector-bg shadow-sm' : 'text-inspector-text-muted hover:text-inspector-text'}
-              `}>
+                ${currentBreakpoint === bp.value 
+                  ? 'bg-inspector-text text-inspector-bg shadow-md' 
+                  : 'text-inspector-text-muted hover:text-inspector-text hover:bg-inspector-hover/60'
+                }
+              `}
+            >
               {bp.label}
-            </button>)}
+            </button>
+          ))}
         </div>
-        <div className="flex items-center gap-1.5 text-[0.65rem] text-inspector-text-muted bg-inspector-section/40 px-2 py-1 rounded-lg border border-inspector-border/30">
-          <Laptop className="w-3 h-3" aria-hidden="true" />
-          <span className="font-medium">{currentBreakpoint === 'base' ? 'All' : currentBreakpoint.toUpperCase()}</span>
-          {hasBreakpointOverrides(currentBreakpoint) && <span className="w-1.5 h-1.5 rounded-full bg-inspector-accent animate-pulse" title="Has overrides" aria-label="Has breakpoint overrides" />}
+        <div className="flex items-center gap-2 text-[0.68rem] text-inspector-text-muted bg-inspector-section/50 px-3 py-1.5 rounded-xl border border-inspector-border/25">
+          <Laptop className="w-3.5 h-3.5" aria-hidden="true" />
+          <span className="font-semibold">{currentBreakpoint === 'base' ? 'All' : currentBreakpoint.toUpperCase()}</span>
+          {hasBreakpointOverrides(currentBreakpoint) && (
+            <span 
+              className="w-2 h-2 rounded-full bg-inspector-accent inspector-status-active" 
+              title="Has overrides" 
+              aria-label="Has breakpoint overrides" 
+            />
+          )}
         </div>
       </div>
 
       {/* Category Tabs - Premium Segmented Control */}
-      <div className="w-full mb-3">
-        <div role="tablist" aria-orientation="horizontal" className="grid grid-cols-4 h-9 w-full rounded-2xl bg-inspector-section/60 border border-inspector-border/40 p-[3px] gap-0.5">
-          {(['appearance', 'layout', 'typography', 'code'] as const).map(tab => <button key={tab} type="button" role="tab" aria-selected={category === tab} onClick={() => onCategoryChange(tab)} className={`
+      <div className="w-full">
+        <div 
+          role="tablist" 
+          aria-orientation="horizontal" 
+          className="grid grid-cols-4 h-10 w-full rounded-2xl bg-inspector-section/70 border border-inspector-border/30 p-1 gap-1 shadow-sm"
+        >
+          {(['appearance', 'layout', 'typography', 'code'] as const).map(tab => (
+            <button 
+              key={tab} 
+              type="button" 
+              role="tab" 
+              aria-selected={category === tab} 
+              onClick={() => onCategoryChange(tab)} 
+              className={`
                 inline-flex items-center justify-center whitespace-nowrap rounded-xl 
-                font-medium text-[0.68rem] tracking-tight
+                font-semibold text-[0.72rem] tracking-tight
                 transition-all duration-200 ease-out
-                ${category === tab ? 'bg-inspector-text text-inspector-bg shadow-sm' : 'text-inspector-text-muted hover:text-inspector-text hover:bg-inspector-hover/50'}
-              `}>
+                ${category === tab 
+                  ? 'bg-inspector-text text-inspector-bg shadow-md scale-[1.02]' 
+                  : 'text-inspector-text-muted hover:text-inspector-text hover:bg-inspector-hover/60'
+                }
+              `}
+            >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </button>)}
+            </button>
+          ))}
         </div>
       </div>
 
-      <Accordion type="multiple" value={openSections} onValueChange={onOpenSectionsChange} className="space-y-1">
-        {category === 'appearance' && <AppearanceSection state={state} borderRadiusTab={borderRadiusTab} onBorderRadiusTabChange={onBorderRadiusTabChange} updateNestedState={updateNestedState} updateDeepNestedState={updateDeepNestedState} />}
+      {/* Accordion Sections */}
+      <Accordion 
+        type="multiple" 
+        value={openSections} 
+        onValueChange={onOpenSectionsChange} 
+        className="space-y-3"
+      >
+        {category === 'appearance' && (
+          <AppearanceSection 
+            state={state} 
+            borderRadiusTab={borderRadiusTab} 
+            onBorderRadiusTabChange={onBorderRadiusTabChange} 
+            updateNestedState={updateNestedState} 
+            updateDeepNestedState={updateDeepNestedState} 
+          />
+        )}
         
-        {category === 'layout' && <LayoutSection state={state} updateNestedState={updateNestedState} />}
+        {category === 'layout' && (
+          <LayoutSection state={state} updateNestedState={updateNestedState} />
+        )}
         
-        {category === 'typography' && <TypographySection state={state} updateState={updateState} updateNestedState={updateNestedState} />}
+        {category === 'typography' && (
+          <TypographySection state={state} updateState={updateState} updateNestedState={updateNestedState} />
+        )}
         
-        {category === 'code' && <CodeSection state={state} updateState={updateState} />}
+        {category === 'code' && (
+          <CodeSection state={state} updateState={updateState} />
+        )}
       </Accordion>
-    </div>;
+    </div>
+  );
 });
 EditorView.displayName = 'EditorView';
 
@@ -360,31 +495,63 @@ const InspectorFooter = memo<InspectorFooterProps>(({
   onReset,
   onApply
 }) => {
-  return <footer className="px-4 py-3 border-t border-inspector-border/50 bg-gradient-to-b from-inspector-bg/90 to-inspector-bg flex justify-between items-center">
-      <span className="text-[0.68rem] text-inspector-text-muted font-mono tracking-tight bg-inspector-section/40 px-2 py-0.5 rounded border border-inspector-border/30">
+  return (
+    <footer 
+      className="
+        px-5 py-4 
+        border-t border-inspector-border/40 
+        bg-gradient-to-b from-inspector-panel/95 to-inspector-bg
+        flex justify-between items-center
+        backdrop-blur-sm
+      "
+    >
+      <span 
+        className="
+          text-[0.7rem] text-inspector-text-muted font-mono tracking-tight 
+          bg-inspector-section/50 px-3 py-1.5 rounded-lg 
+          border border-inspector-border/25
+          shadow-sm
+        "
+      >
         #{elementId || 'element'}
       </span>
-      <div className="flex gap-2">
-        <button type="button" className="
-            inline-flex items-center justify-center rounded-xl h-7 px-4 
-            text-[0.68rem] font-medium 
-            border border-inspector-border/50 bg-inspector-section/60 
-            text-inspector-text hover:bg-inspector-hover hover:border-inspector-border
+      <div className="flex gap-3">
+        <button 
+          type="button" 
+          className="
+            inline-flex items-center justify-center rounded-xl h-9 px-5 
+            text-[0.72rem] font-semibold 
+            border border-inspector-border/40 bg-inspector-section/60 
+            text-inspector-text-secondary 
+            hover:bg-inspector-hover hover:text-inspector-text hover:border-inspector-border/60
+            active:scale-[0.98]
+            inspector-btn-reset
             transition-all duration-200
-          " onClick={onReset}>
+          " 
+          onClick={onReset}
+        >
           Reset
         </button>
-        {onApply && <button type="button" className="
-              inline-flex items-center justify-center rounded-xl h-7 px-4 
-              text-[0.68rem] font-medium 
-              bg-inspector-active text-inspector-bg 
-              hover:shadow-lg hover:shadow-inspector-active/30
+        {onApply && (
+          <button 
+            type="button" 
+            className="
+              inline-flex items-center justify-center rounded-xl h-9 px-5 
+              text-[0.72rem] font-bold 
+              bg-gradient-to-r from-inspector-active to-inspector-accent-soft
+              text-inspector-bg 
+              hover:shadow-lg hover:shadow-inspector-active/40
+              active:scale-[0.98]
               transition-all duration-200
-            " onClick={onApply}>
+            " 
+            onClick={onApply}
+          >
             Apply
-          </button>}
+          </button>
+        )}
       </div>
-    </footer>;
+    </footer>
+  );
 });
 InspectorFooter.displayName = 'InspectorFooter';
 
@@ -531,34 +698,91 @@ export const PropertyInspector: React.FC = () => {
   }
 
   // --- Main Render ---
-  return <section className="lg:w-auto lg:flex-shrink-0 w-full" aria-label="Property inspector panel">
-      <div className="
-          bg-gradient-to-b from-inspector-panel/95 via-inspector-bg/98 to-inspector-bg
-          border border-inspector-border/60 
+  return (
+    <section className="lg:w-auto lg:flex-shrink-0 w-full" aria-label="Property inspector panel">
+      <div 
+        className="
+          inspector-glass
+          border border-inspector-border/40 
           rounded-3xl 
-          shadow-2xl shadow-black/50
+          shadow-[var(--inspector-shadow-xl)]
           max-h-[90vh] 
           flex flex-col 
           overflow-hidden 
-          backdrop-blur-xl
-          ring-1 ring-inset ring-white/[0.03]
-        " role="region" aria-label="Property Inspector">
+          ring-1 ring-inset ring-white/[0.04]
+          ring-offset-0
+        " 
+        style={{
+          boxShadow: 'var(--inspector-shadow-xl), var(--inspector-glow)'
+        }}
+        role="region" 
+        aria-label="Property Inspector"
+      >
         {/* Header Toolbar */}
-        <InspectorToolbar activeTab={activeTab} onActiveTabChange={setActiveTab} currentTag={state.tag} onResetTransforms={resetTransforms} onShowTemplates={() => setShowTemplates(true)} onShowPresets={() => setShowPresets(true)} onShowExport={() => setShowExport(true)} className="bg-primary-foreground" />
+        <InspectorToolbar 
+          activeTab={activeTab} 
+          onActiveTabChange={setActiveTab} 
+          currentTag={state.tag} 
+          onResetTransforms={resetTransforms} 
+          onShowTemplates={() => setShowTemplates(true)} 
+          onShowPresets={() => setShowPresets(true)} 
+          onShowExport={() => setShowExport(true)} 
+        />
 
         {/* Main Content */}
-        <div className="p-4 overflow-y-auto flex-1 inspector-scrollbar bg-primary-foreground">
-          {activeTab === 'PROMPT' && <AIPromptForm promptValue={aiPromptInput} onPromptChange={setAiPromptInput} onSubmit={handleApplyPrompt} onCancel={handleCancelPrompt} isLoading={isAILoading} statusMessage={aiStatusMessage} error={aiError} state={state} generatedClasses={generatedClasses} />}
+        <div className="p-5 overflow-y-auto flex-1 inspector-scrollbar">
+          {activeTab === 'PROMPT' && (
+            <AIPromptForm 
+              promptValue={aiPromptInput} 
+              onPromptChange={setAiPromptInput} 
+              onSubmit={handleApplyPrompt} 
+              onCancel={handleCancelPrompt} 
+              isLoading={isAILoading} 
+              statusMessage={aiStatusMessage} 
+              error={aiError} 
+              state={state} 
+              generatedClasses={generatedClasses} 
+            />
+          )}
           
-          {activeTab === 'CODE' && <CodeEditor mode={codeTabMode} onModeChange={setCodeTabMode} htmlValue={customHtml} cssValue={customCss} onHtmlChange={setCustomHtml} onCssChange={setCustomCss} onClear={handleClearCode} onCopy={handleCopyCode} onSave={handleSaveCode} />}
+          {activeTab === 'CODE' && (
+            <CodeEditor 
+              mode={codeTabMode} 
+              onModeChange={setCodeTabMode} 
+              htmlValue={customHtml} 
+              cssValue={customCss} 
+              onHtmlChange={setCustomHtml} 
+              onCssChange={setCustomCss} 
+              onClear={handleClearCode} 
+              onCopy={handleCopyCode} 
+              onSave={handleSaveCode} 
+            />
+          )}
           
-          {activeTab === 'EDIT' && <EditorView category={editCategory} onCategoryChange={setEditCategory} currentBreakpoint={currentBreakpoint} onBreakpointChange={setCurrentBreakpoint} hasBreakpointOverrides={hasBreakpointOverrides} openSections={openSections} onOpenSectionsChange={setOpenSections} state={state} borderRadiusTab={borderRadiusTab} onBorderRadiusTabChange={setBorderRadiusTab} updateState={updateState} updateNestedState={updateNestedState} updateDeepNestedState={updateDeepNestedState} />}
+          {activeTab === 'EDIT' && (
+            <EditorView 
+              category={editCategory} 
+              onCategoryChange={setEditCategory} 
+              currentBreakpoint={currentBreakpoint} 
+              onBreakpointChange={setCurrentBreakpoint} 
+              hasBreakpointOverrides={hasBreakpointOverrides} 
+              openSections={openSections} 
+              onOpenSectionsChange={setOpenSections} 
+              state={state} 
+              borderRadiusTab={borderRadiusTab} 
+              onBorderRadiusTabChange={setBorderRadiusTab} 
+              updateState={updateState} 
+              updateNestedState={updateNestedState} 
+              updateDeepNestedState={updateDeepNestedState} 
+            />
+          )}
         </div>
 
         {/* Footer */}
-        <InspectorFooter elementId={state.elementId} onReset={resetTransforms} className="bg-primary-foreground" />
+        <InspectorFooter elementId={state.elementId} onReset={resetTransforms} />
       </div>
-    </section>;
+    </section>
+  );
 };
 
 // Re-export types and utilities

@@ -155,13 +155,17 @@ interface SectionHeaderProps {
 }
 
 const SectionHeader = memo<SectionHeaderProps>(({ icon, title, badge }) => (
-  <div className="flex items-center gap-2 w-full">
-    <span className="flex items-center gap-2 flex-1">
-      <span className="text-inspector-accent/80">{icon}</span>
-      <span className="text-inspector-text font-medium">{title}</span>
+  <div className="flex items-center gap-2.5 w-full py-0.5">
+    <span className="flex items-center gap-2.5 flex-1">
+      <span className="text-inspector-accent/90 p-1 rounded-lg bg-inspector-active/10">
+        {icon}
+      </span>
+      <span className="text-inspector-text font-semibold text-[0.78rem] tracking-tight">
+        {title}
+      </span>
     </span>
     {badge !== undefined && badge !== null && (
-      <span className="text-[9px] bg-inspector-active/15 text-inspector-active px-2 py-0.5 rounded-full font-medium">
+      <span className="text-[0.6rem] bg-inspector-active/15 text-inspector-active px-2.5 py-1 rounded-full font-bold tracking-wide uppercase">
         {badge}
       </span>
     )}
@@ -189,9 +193,17 @@ const ColorsSection = memo<ColorsSectionProps>(({
   const [showPresets, setShowPresets] = useState(false);
 
   return (
-    <AccordionItem value="colors-background-section" className="border-b border-inspector-border/40 rounded-xl overflow-hidden">
+    <AccordionItem 
+      value="colors-background-section" 
+      className="inspector-card overflow-hidden border-0"
+    >
       <AccordionTrigger 
-        className="py-2.5 px-3 text-xs font-medium text-inspector-text-muted hover:no-underline hover:bg-inspector-hover/50 rounded-xl transition-colors"
+        className="
+          py-3.5 px-4 text-xs font-medium text-inspector-text-muted 
+          hover:no-underline inspector-accordion-trigger
+          data-[state=open]:bg-inspector-section/60
+          transition-all duration-200
+        "
         aria-label="Colors settings"
       >
         <SectionHeader 
@@ -199,10 +211,10 @@ const ColorsSection = memo<ColorsSectionProps>(({
           title="Colors"
         />
       </AccordionTrigger>
-      <AccordionContent className="pb-3 px-3 space-y-3">
+      <AccordionContent className="pb-4 px-4 space-y-4 animate-accordion-down">
         {/* Color Pickers Grid */}
-        <div className="space-y-2">
-          <div className="grid grid-cols-2 gap-2" aria-label="Color pickers">
+        <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-3" aria-label="Color pickers">
             <InspectorColorPicker
               value={appearance.backgroundColor}
               onChange={(c) => {
@@ -221,7 +233,7 @@ const ColorsSection = memo<ColorsSectionProps>(({
               label="Text"
             />
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-3">
             <InspectorColorPicker
               value={border.color}
               onChange={(c) => {
@@ -244,7 +256,16 @@ const ColorsSection = memo<ColorsSectionProps>(({
           <button
             type="button"
             onClick={() => setShowPresets(!showPresets)}
-            className="inline-flex items-center justify-center w-full h-8 text-[0.68rem] gap-1.5 rounded-xl border border-inspector-border/40 bg-inspector-section/50 hover:bg-inspector-hover text-inspector-text font-medium transition-all duration-200"
+            className="
+              inline-flex items-center justify-center w-full h-9 
+              text-[0.72rem] gap-2 rounded-xl 
+              border border-inspector-border/30 
+              bg-inspector-section/60 hover:bg-inspector-hover 
+              text-inspector-text font-semibold 
+              transition-all duration-200
+              hover:shadow-sm
+              active:scale-[0.98]
+            "
           >
             <Sparkles className="w-3.5 h-3.5 text-inspector-accent" aria-hidden="true" />
             {showPresets ? 'Hide' : 'Show'} Presets
@@ -252,19 +273,37 @@ const ColorsSection = memo<ColorsSectionProps>(({
 
           {/* Color Presets */}
           {showPresets && (
-            <div className="space-y-1 pt-1 border-t border-inspector-border">
-              <span className="text-[9px] text-inspector-text-muted block">Quick Colors:</span>
-              <div className="grid grid-cols-4 gap-1">
+            <div className="space-y-2.5 pt-3 border-t border-inspector-border/30 animate-fade-in">
+              <span className="text-[0.65rem] text-inspector-text-muted block font-semibold uppercase tracking-wider">
+                Quick Colors
+              </span>
+              <div className="grid grid-cols-4 gap-2">
                 {COLOR_PRESETS.map(preset => (
                   <button
                     key={preset.name}
                     type="button"
                     onClick={() => onColorChange('appearance', 'backgroundColor', preset.value)}
-                    className="h-8 rounded-lg border border-inspector-border hover:scale-110 transition-transform"
+                    className="
+                      h-9 rounded-xl border border-inspector-border/40 
+                      hover:scale-110 hover:shadow-lg hover:z-10
+                      active:scale-105
+                      transition-all duration-200
+                      relative group
+                    "
                     style={{ backgroundColor: preset.value }}
                     title={preset.name}
                     aria-label={`Set background to ${preset.name}`}
-                  />
+                  >
+                    <span className="
+                      absolute -bottom-6 left-1/2 -translate-x-1/2
+                      text-[0.6rem] text-inspector-text-muted
+                      opacity-0 group-hover:opacity-100
+                      transition-opacity duration-200
+                      whitespace-nowrap
+                    ">
+                      {preset.name}
+                    </span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -308,9 +347,17 @@ const BorderRadiusSection = memo<BorderRadiusSectionProps>(({
   }, [borderRadiusTab, onRadiusChange]);
 
   return (
-    <AccordionItem value="border-radius-section" className="border-b border-inspector-border/40 rounded-xl overflow-hidden">
+    <AccordionItem 
+      value="border-radius-section" 
+      className="inspector-card overflow-hidden border-0"
+    >
       <AccordionTrigger 
-        className="py-2.5 px-3 text-xs font-medium text-inspector-text-muted hover:no-underline hover:bg-inspector-hover/50 rounded-xl transition-colors"
+        className="
+          py-3.5 px-4 text-xs font-medium text-inspector-text-muted 
+          hover:no-underline inspector-accordion-trigger
+          data-[state=open]:bg-inspector-section/60
+          transition-all duration-200
+        "
         aria-label="Border and radius settings"
       >
         <SectionHeader 
@@ -318,11 +365,13 @@ const BorderRadiusSection = memo<BorderRadiusSectionProps>(({
           title="Border & Radius"
         />
       </AccordionTrigger>
-      <AccordionContent className="pb-3 px-3 space-y-3">
+      <AccordionContent className="pb-4 px-4 space-y-4 animate-accordion-down">
         {/* Border Width & Style */}
-        <div className="space-y-1">
-          <label className="text-[0.7rem] text-inspector-text-muted block">Border</label>
-          <div className="grid grid-cols-2 gap-2">
+        <div className="space-y-2">
+          <label className="text-[0.72rem] text-inspector-text-muted block font-semibold">
+            Border
+          </label>
+          <div className="grid grid-cols-2 gap-3">
             <LabeledInput 
               label="Width" 
               value={border.width} 
@@ -340,22 +389,25 @@ const BorderRadiusSection = memo<BorderRadiusSectionProps>(({
         </div>
 
         {/* Border Radius - Modern Tab Selector */}
-        <div className="space-y-1">
-          <label className="text-[0.68rem] text-inspector-text-muted block font-medium" id="border-radius-label">
+        <div className="space-y-2.5">
+          <label 
+            className="text-[0.72rem] text-inspector-text-muted block font-semibold" 
+            id="border-radius-label"
+          >
             Corner Radius
           </label>
-          <div className="flex bg-inspector-section/50 rounded-xl overflow-hidden h-8 border border-inspector-border/30">
+          <div className="flex bg-inspector-section/70 rounded-xl overflow-hidden h-9 border border-inspector-border/25 p-1 gap-0.5">
             {(['all', 'tl', 'tr', 'br', 'bl'] as const).map(tab => (
               <button
                 key={tab}
                 type="button"
                 onClick={() => onBorderRadiusTabChange(tab)}
                 className={`
-                  flex-1 flex items-center justify-center text-[0.65rem] font-medium
+                  flex-1 flex items-center justify-center text-[0.68rem] font-semibold rounded-lg
                   transition-all duration-200
                   ${borderRadiusTab === tab
-                    ? 'bg-inspector-text text-inspector-bg'
-                    : 'text-inspector-text-muted hover:text-inspector-text hover:bg-inspector-hover/50'
+                    ? 'bg-inspector-text text-inspector-bg shadow-sm'
+                    : 'text-inspector-text-muted hover:text-inspector-text hover:bg-inspector-hover/60'
                   }
                 `}
                 title={tab === 'all' ? 'All Sides' : `${tab.toUpperCase()} corner`}
@@ -365,7 +417,7 @@ const BorderRadiusSection = memo<BorderRadiusSectionProps>(({
             ))}
           </div>
           <SliderControl
-            icon={<Circle className="w-2.5 h-2.5" aria-hidden="true" />}
+            icon={<Circle className="w-3 h-3" aria-hidden="true" />}
             label={borderRadiusTab === 'all' ? 'All Corners' : borderRadiusTab.toUpperCase()}
             value={border.radius[borderRadiusTab]}
             onChange={(v) => onRadiusChange(borderRadiusTab, v)}
@@ -377,15 +429,25 @@ const BorderRadiusSection = memo<BorderRadiusSectionProps>(({
         </div>
 
         {/* Radius Presets */}
-        <div className="space-y-2">
-          <span className="text-[0.6rem] text-inspector-text-muted block uppercase tracking-wider font-medium">Quick Radius</span>
-          <div className="flex flex-wrap gap-1.5">
+        <div className="space-y-2.5 pt-3 border-t border-inspector-border/30">
+          <span className="text-[0.65rem] text-inspector-text-muted block uppercase tracking-wider font-semibold">
+            Quick Radius
+          </span>
+          <div className="flex flex-wrap gap-2">
             {RADIUS_PRESETS.map(preset => (
               <button
                 key={preset.name}
                 type="button"
                 onClick={() => handlePresetRadius(preset.value)}
-                className="px-2.5 py-1.5 text-[0.6rem] rounded-lg bg-inspector-section/60 hover:bg-inspector-hover border border-inspector-border/30 text-inspector-text font-medium transition-all duration-200"
+                className="
+                  px-3 py-2 text-[0.68rem] rounded-xl 
+                  bg-inspector-section/70 hover:bg-inspector-hover 
+                  border border-inspector-border/25 
+                  text-inspector-text font-semibold 
+                  transition-all duration-200
+                  hover:shadow-sm hover:-translate-y-0.5
+                  active:scale-[0.98]
+                "
               >
                 {preset.name}
               </button>
@@ -412,9 +474,17 @@ const ShadowOpacitySection = memo<ShadowOpacitySectionProps>(({
   onEffectChange
 }) => {
   return (
-    <AccordionItem value="shadow-opacity-section" className="border-b border-inspector-border/40 rounded-xl overflow-hidden">
+    <AccordionItem 
+      value="shadow-opacity-section" 
+      className="inspector-card overflow-hidden border-0"
+    >
       <AccordionTrigger 
-        className="py-2.5 px-3 text-xs font-medium text-inspector-text-muted hover:no-underline hover:bg-inspector-hover/50 rounded-xl transition-colors"
+        className="
+          py-3.5 px-4 text-xs font-medium text-inspector-text-muted 
+          hover:no-underline inspector-accordion-trigger
+          data-[state=open]:bg-inspector-section/60
+          transition-all duration-200
+        "
         aria-label="Shadow and opacity settings"
       >
         <SectionHeader 
@@ -422,9 +492,12 @@ const ShadowOpacitySection = memo<ShadowOpacitySectionProps>(({
           title="Shadow & Opacity"
         />
       </AccordionTrigger>
-      <AccordionContent className="pb-3 px-3 space-y-3">
+      <AccordionContent className="pb-4 px-4 space-y-4 animate-accordion-down">
         <div>
-          <label htmlFor="shadow-select" className="text-[0.68rem] text-inspector-text-muted block mb-1.5 font-medium">
+          <label 
+            htmlFor="shadow-select" 
+            className="text-[0.72rem] text-inspector-text-muted block mb-2 font-semibold"
+          >
             Drop Shadow
           </label>
           <div className="relative">
@@ -435,28 +508,30 @@ const ShadowOpacitySection = memo<ShadowOpacitySectionProps>(({
               className="
                 appearance-none cursor-pointer 
                 hover:bg-inspector-hover transition-all duration-200 
-                focus:outline-none focus:ring-2 focus:ring-inspector-active/50
-                text-xs text-inspector-text bg-inspector-section/60 
-                w-full h-9 border-inspector-border/40 border rounded-xl 
-                pr-8 pl-3
+                focus:outline-none focus:ring-2 focus:ring-inspector-active/40
+                text-[0.75rem] text-inspector-text bg-inspector-section/70 
+                w-full h-10 border-inspector-border/30 border rounded-xl 
+                pr-10 pl-4 font-medium
               "
             >
               {SHADOW_OPTIONS.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
-            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-inspector-text-muted pointer-events-none" />
+            <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-inspector-text-muted pointer-events-none" />
           </div>
         </div>
         
         {/* Opacity Slider */}
-        <div className="space-y-1">
-          <div className="flex items-center justify-between text-[0.7rem]">
-            <div className="flex items-center gap-1.5 text-inspector-text-muted">
-              <Eye className="w-3 h-3" aria-hidden="true" />
-              <span className="font-medium">Opacity</span>
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between text-[0.72rem]">
+            <div className="flex items-center gap-2 text-inspector-text-muted">
+              <div className="p-1 rounded-lg bg-inspector-active/10">
+                <Eye className="w-3.5 h-3.5 text-inspector-accent" aria-hidden="true" />
+              </div>
+              <span className="font-semibold">Opacity</span>
             </div>
-            <span className="text-[0.7rem] font-mono text-inspector-text-muted tabular-nums">
+            <span className="text-[0.75rem] font-mono text-inspector-text tabular-nums bg-inspector-section/50 px-2 py-0.5 rounded-lg">
               {effects.opacity}%
             </span>
           </div>
@@ -467,8 +542,8 @@ const ShadowOpacitySection = memo<ShadowOpacitySectionProps>(({
             step="1" 
             value={effects.opacity}
             onChange={(e) => onEffectChange('opacity', Number(e.target.value))}
-            className="w-full h-1.5 rounded-full appearance-none cursor-pointer bg-inspector-border"
-            style={{ accentColor: 'hsl(var(--inspector-active))' }}
+            className="inspector-slider w-full"
+            style={{ '--slider-progress': `${effects.opacity}%` } as React.CSSProperties}
           />
         </div>
       </AccordionContent>
@@ -495,9 +570,17 @@ const FiltersSection = memo<FiltersSectionProps>(({
   const hasFilters = useMemo(() => hasActiveFilters(effects), [effects]);
 
   return (
-    <AccordionItem value="filters-section" className="border-b border-inspector-border/40 rounded-xl overflow-hidden">
+    <AccordionItem 
+      value="filters-section" 
+      className="inspector-card overflow-hidden border-0"
+    >
       <AccordionTrigger 
-        className="py-2.5 px-3 text-xs font-medium text-inspector-text-muted hover:no-underline hover:bg-inspector-hover/50 rounded-xl transition-colors"
+        className="
+          py-3.5 px-4 text-xs font-medium text-inspector-text-muted 
+          hover:no-underline inspector-accordion-trigger
+          data-[state=open]:bg-inspector-section/60
+          transition-all duration-200
+        "
         aria-label="Filter effects settings"
       >
         <SectionHeader 
@@ -506,13 +589,15 @@ const FiltersSection = memo<FiltersSectionProps>(({
           badge={hasFilters ? '✓' : undefined}
         />
       </AccordionTrigger>
-      <AccordionContent className="pb-3 px-3 space-y-3">
+      <AccordionContent className="pb-4 px-4 space-y-4 animate-accordion-down">
         {/* Blur Filters */}
-        <div className="space-y-1">
-          <label className="text-[0.7rem] text-inspector-text-muted block">Blur</label>
-          <div className="space-y-2">
+        <div className="space-y-2.5">
+          <label className="text-[0.72rem] text-inspector-text-muted block font-semibold">
+            Blur
+          </label>
+          <div className="space-y-3">
             <SliderControl 
-              icon={<Droplet className="w-2.5 h-2.5" aria-hidden="true" />} 
+              icon={<Droplet className="w-3 h-3 text-inspector-accent" aria-hidden="true" />} 
               label="Blur" 
               value={effects.blur} 
               onChange={(v) => onEffectChange('blur', v)} 
@@ -522,7 +607,7 @@ const FiltersSection = memo<FiltersSectionProps>(({
               aria-label="Blur filter strength"
             />
             <SliderControl 
-              icon={<Droplet className="w-2.5 h-2.5" aria-hidden="true" />} 
+              icon={<Droplet className="w-3 h-3 text-inspector-accent" aria-hidden="true" />} 
               label="Backdrop" 
               value={effects.backdropBlur} 
               onChange={(v) => onEffectChange('backdropBlur', v)} 
@@ -535,11 +620,13 @@ const FiltersSection = memo<FiltersSectionProps>(({
         </div>
 
         {/* Color Adjustments */}
-        <div className="space-y-1">
-          <label className="text-[0.7rem] text-inspector-text-muted block">Color Adjustments</label>
-          <div className="space-y-2">
+        <div className="space-y-2.5 pt-3 border-t border-inspector-border/30">
+          <label className="text-[0.72rem] text-inspector-text-muted block font-semibold">
+            Color Adjustments
+          </label>
+          <div className="space-y-3">
             <SliderControl 
-              icon={<Sun className="w-2.5 h-2.5" aria-hidden="true" />} 
+              icon={<Sun className="w-3 h-3 text-inspector-accent" aria-hidden="true" />} 
               label="Brightness" 
               value={effects.brightness} 
               onChange={(v) => onEffectChange('brightness', v)} 
@@ -549,7 +636,7 @@ const FiltersSection = memo<FiltersSectionProps>(({
               aria-label="Brightness level"
             />
             <SliderControl 
-              icon={<Contrast className="w-2.5 h-2.5" aria-hidden="true" />} 
+              icon={<Contrast className="w-3 h-3 text-inspector-accent" aria-hidden="true" />} 
               label="Contrast" 
               value={effects.contrast} 
               onChange={(v) => onEffectChange('contrast', v)} 
@@ -559,7 +646,7 @@ const FiltersSection = memo<FiltersSectionProps>(({
               aria-label="Contrast level"
             />
             <SliderControl 
-              icon={<Sun className="w-2.5 h-2.5" aria-hidden="true" />} 
+              icon={<Sun className="w-3 h-3 text-inspector-accent" aria-hidden="true" />} 
               label="Saturation" 
               value={effects.saturation} 
               onChange={(v) => onEffectChange('saturation', v)} 
@@ -572,11 +659,13 @@ const FiltersSection = memo<FiltersSectionProps>(({
         </div>
 
         {/* Special Effects */}
-        <div className="space-y-1">
-          <label className="text-[0.7rem] text-inspector-text-muted block">Special Effects</label>
-          <div className="space-y-2">
+        <div className="space-y-2.5 pt-3 border-t border-inspector-border/30">
+          <label className="text-[0.72rem] text-inspector-text-muted block font-semibold">
+            Special Effects
+          </label>
+          <div className="space-y-3">
             <SliderControl 
-              icon={<Contrast className="w-2.5 h-2.5" aria-hidden="true" />} 
+              icon={<Contrast className="w-3 h-3 text-inspector-accent" aria-hidden="true" />} 
               label="Hue Rotate" 
               value={effects.hueRotate} 
               onChange={(v) => onEffectChange('hueRotate', v)} 
@@ -588,7 +677,7 @@ const FiltersSection = memo<FiltersSectionProps>(({
               aria-label="Hue rotation angle"
             />
             <SliderControl 
-              icon={<FlipHorizontal className="w-2.5 h-2.5" aria-hidden="true" />} 
+              icon={<FlipHorizontal className="w-3 h-3 text-inspector-accent" aria-hidden="true" />} 
               label="Grayscale" 
               value={effects.grayscale} 
               onChange={(v) => onEffectChange('grayscale', v)} 
@@ -605,9 +694,19 @@ const FiltersSection = memo<FiltersSectionProps>(({
           <button
             type="button"
             onClick={onResetFilters}
-            className="w-full h-6 text-[0.7rem] gap-1 inline-flex items-center justify-center rounded-lg border border-inspector-border bg-inspector-section hover:bg-inspector-hover text-inspector-text transition-colors"
+            className="
+              w-full h-9 text-[0.72rem] gap-2 
+              inline-flex items-center justify-center 
+              rounded-xl border border-inspector-border/30 
+              bg-inspector-section/60 hover:bg-red-500/15 
+              text-inspector-text hover:text-red-400
+              hover:border-red-500/30
+              transition-all duration-200
+              font-semibold
+              active:scale-[0.98]
+            "
           >
-            <RotateCcw className="w-3 h-3" aria-hidden="true" />
+            <RotateCcw className="w-3.5 h-3.5" aria-hidden="true" />
             Reset All Filters
           </button>
         )}
