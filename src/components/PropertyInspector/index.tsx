@@ -349,6 +349,7 @@ interface InspectorFooterProps {
   elementId: string;
   onReset: () => void;
   onApply?: () => void;
+  className?: string;
 }
 
 /**

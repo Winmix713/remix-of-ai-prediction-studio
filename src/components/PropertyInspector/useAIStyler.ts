@@ -21,6 +21,10 @@ export const useAIStyler = () => {
     setError(null);
 
     try {
+      if (!supabase) {
+        throw new Error('Backend not configured. Enable Lovable Cloud to use AI styling.');
+      }
+      
       const { data, error: fnError } = await supabase.functions.invoke('ai-styler', {
         body: {
           prompt,
