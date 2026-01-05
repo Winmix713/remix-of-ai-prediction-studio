@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import type { TabMode } from './types';
 
-interface InspectorToolbarProps {
+export interface InspectorToolbarProps {
   activeTab: TabMode;
   onActiveTabChange: (tab: TabMode) => void;
   currentTag: string;
@@ -17,6 +17,7 @@ interface InspectorToolbarProps {
   onShowTemplates: () => void;
   onShowPresets: () => void;
   onShowExport: () => void;
+  className?: string;
 }
 
 interface ToolbarAction {
@@ -101,6 +102,7 @@ export const InspectorToolbar: React.FC<InspectorToolbarProps> = memo(({
   onShowTemplates,
   onShowPresets,
   onShowExport,
+  className,
 }) => {
   const handleTabChange = useCallback((value: TabMode) => {
     onActiveTabChange(value);
