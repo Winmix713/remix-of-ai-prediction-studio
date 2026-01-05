@@ -82,11 +82,11 @@ export const PreviewBox: React.FC<PreviewBoxProps> = ({
   }, [enableExport]);
   
   return (
-    <div className="relative bg-card border border-border rounded-xl p-6 overflow-hidden">
+    <div className="relative inspector-card p-6 overflow-hidden inspector-preview-glow">
       {/* Conditionally rendered grid background */}
       {showGrid && gridPattern !== 'none' && (
         <div 
-          className="absolute inset-0 opacity-5 pointer-events-none"
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
           style={gridBackground || undefined}
           aria-hidden="true"
         />
@@ -94,7 +94,7 @@ export const PreviewBox: React.FC<PreviewBoxProps> = ({
       
       {/* Preview container with responsive width */}
       <div 
-        className="relative flex items-center justify-center min-h-32 mx-auto transition-all"
+        className="relative flex items-center justify-center min-h-36 mx-auto transition-all"
         style={{ 
           maxWidth: responsive.width,
           transitionDuration: `${transitionDuration}ms`
@@ -119,19 +119,37 @@ export const PreviewBox: React.FC<PreviewBoxProps> = ({
       </div>
       
       {/* Info overlay with responsive mode indicator */}
-      <div className="absolute bottom-2 left-2 right-2 flex justify-between items-center text-[9px] text-muted-foreground">
+      <div className="
+        absolute bottom-3 left-3 right-3 
+        flex justify-between items-center 
+        text-[0.65rem] text-inspector-text-muted
+      ">
         <div className="flex gap-2 items-center">
-          <span className="font-mono uppercase bg-secondary/50 px-1.5 py-0.5 rounded">
+          <span className="
+            font-mono uppercase 
+            bg-inspector-section/60 px-2.5 py-1 rounded-lg
+            border border-inspector-border/25
+            text-inspector-text-secondary font-medium
+          ">
             &lt;{state.tag}&gt;
           </span>
           {/* Responsive mode indicator */}
-          <span className="font-mono uppercase bg-secondary/50 px-1.5 py-0.5 rounded">
+          <span className="
+            font-mono uppercase 
+            bg-inspector-active/15 px-2.5 py-1 rounded-lg
+            text-inspector-accent font-semibold
+          ">
             {responsiveMode}
           </span>
         </div>
         
         <div className="flex gap-2 items-center">
-          <span className="font-mono">
+          <span className="
+            font-mono 
+            bg-inspector-section/60 px-2.5 py-1 rounded-lg
+            border border-inspector-border/25
+            text-inspector-text-secondary
+          ">
             {generatedClasses.split(' ').filter(Boolean).length} classes
           </span>
           
@@ -140,7 +158,16 @@ export const PreviewBox: React.FC<PreviewBoxProps> = ({
             <button
               type="button"
               onClick={handleExport}
-              className="font-mono uppercase bg-secondary/50 hover:bg-secondary px-1.5 py-0.5 rounded transition-colors"
+              className="
+                font-mono uppercase 
+                bg-inspector-section/60 hover:bg-inspector-hover 
+                px-2.5 py-1 rounded-lg 
+                border border-inspector-border/25
+                hover:border-inspector-accent/30
+                transition-all duration-200
+                text-inspector-text-secondary hover:text-inspector-accent
+                font-semibold
+              "
               aria-label="Export preview as image"
             >
               Export

@@ -188,33 +188,61 @@
     --glass-border: hsl(220 15% 25% / 0.5);
 
     /* ============================================
-       PROPERTY INSPECTOR - PREMIUM DARK DESIGN
+       PROPERTY INSPECTOR - ULTRA PREMIUM DARK DESIGN
        ============================================ */
     
-    /* Inspector Panel Colors - Deep Navy Theme */
-    --inspector-bg: 222 47% 7%;
-    --inspector-panel: 220 35% 10%;
-    --inspector-section: 220 30% 14%;
-    --inspector-border: 220 30% 20%;
-    --inspector-hover: 220 35% 18%;
-    --inspector-active: 195 100% 50%;
-    --inspector-text: 210 20% 92%;
-    --inspector-text-muted: 210 15% 45%;
-    --inspector-accent: 195 100% 60%;
+    /* Inspector Panel Colors - Deep Obsidian Theme with Layered Depth */
+    --inspector-bg: 225 45% 5%;
+    --inspector-bg-secondary: 225 42% 7%;
+    --inspector-bg-tertiary: 225 40% 9%;
+    --inspector-panel: 224 40% 8%;
+    --inspector-section: 223 38% 12%;
+    --inspector-section-alt: 223 36% 14%;
+    --inspector-border: 222 32% 18%;
+    --inspector-border-subtle: 222 30% 15%;
+    --inspector-hover: 222 38% 16%;
+    --inspector-hover-strong: 222 40% 20%;
+    
+    /* Inspector Accent Colors - Refined Cyan */
+    --inspector-active: 192 95% 48%;
+    --inspector-active-muted: 192 80% 42%;
+    --inspector-accent: 192 90% 55%;
+    --inspector-accent-soft: 192 70% 45%;
+    
+    /* Inspector Text Hierarchy */
+    --inspector-text: 210 25% 95%;
+    --inspector-text-secondary: 210 18% 78%;
+    --inspector-text-muted: 210 12% 52%;
+    --inspector-text-disabled: 210 8% 38%;
     
     /* Inspector Interactive States */
-    --inspector-btn-bg: 220 30% 12%;
-    --inspector-btn-hover: 220 30% 18%;
-    --inspector-btn-active: 195 100% 50%;
-    --inspector-input-bg: 220 35% 9%;
-    --inspector-input-border: 220 25% 22%;
-    --inspector-input-focus: 195 100% 50%;
+    --inspector-btn-bg: 223 35% 11%;
+    --inspector-btn-hover: 223 38% 16%;
+    --inspector-btn-active: 192 95% 48%;
+    --inspector-btn-active-hover: 192 95% 55%;
+    --inspector-input-bg: 225 42% 7%;
+    --inspector-input-border: 222 28% 20%;
+    --inspector-input-focus: 192 95% 48%;
+    --inspector-input-focus-ring: 192 90% 48% / 0.25;
     
-    /* Inspector Shadows & Effects */
-    --inspector-shadow: 0 12px 48px -12px hsl(0 0% 0% / 0.5);
-    --inspector-glow: 0 0 30px hsl(195 100% 50% / 0.12);
-    --inspector-glow-strong: 0 0 50px hsl(195 100% 50% / 0.2);
-    --inspector-inner-glow: inset 0 1px 0 hsl(220 30% 25% / 0.5);
+    /* Inspector Shadows & Effects - Multi-layered */
+    --inspector-shadow-sm: 0 2px 8px -2px hsl(0 0% 0% / 0.4);
+    --inspector-shadow: 0 8px 32px -8px hsl(0 0% 0% / 0.5), 0 4px 16px -4px hsl(0 0% 0% / 0.3);
+    --inspector-shadow-lg: 0 16px 64px -16px hsl(0 0% 0% / 0.6), 0 8px 32px -8px hsl(0 0% 0% / 0.4);
+    --inspector-shadow-xl: 0 24px 80px -20px hsl(0 0% 0% / 0.7), 0 12px 40px -12px hsl(0 0% 0% / 0.5);
+    --inspector-glow: 0 0 24px hsl(192 95% 48% / 0.1);
+    --inspector-glow-strong: 0 0 48px hsl(192 95% 48% / 0.18);
+    --inspector-glow-intense: 0 0 64px hsl(192 95% 48% / 0.25);
+    --inspector-inner-glow: inset 0 1px 0 hsl(222 35% 28% / 0.4);
+    --inspector-inner-shadow: inset 0 2px 6px -2px hsl(0 0% 0% / 0.3);
+    
+    /* Inspector Gradients */
+    --inspector-gradient-panel: linear-gradient(180deg, hsl(224 40% 10%) 0%, hsl(225 45% 6%) 100%);
+    --inspector-gradient-header: linear-gradient(180deg, hsl(224 40% 12%) 0%, hsl(224 40% 8%) 100%);
+    --inspector-gradient-footer: linear-gradient(0deg, hsl(225 45% 5%) 0%, hsl(224 40% 8%) 100%);
+    --inspector-gradient-section: linear-gradient(135deg, hsl(223 38% 13%) 0%, hsl(223 36% 11%) 100%);
+    --inspector-gradient-accent: linear-gradient(135deg, hsl(192 95% 48%) 0%, hsl(192 80% 40%) 100%);
+    --inspector-gradient-hover: linear-gradient(180deg, hsl(222 38% 18%) 0%, hsl(222 36% 14%) 100%);
   }
 }
 
@@ -670,69 +698,334 @@
     transition: var(--transition-bounce);
   }
 
-  /* Inspector Custom Scrollbar */
+  /* Inspector Custom Scrollbar - Ultra Thin */
   .inspector-scrollbar::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
   }
 
   .inspector-scrollbar::-webkit-scrollbar-track {
     background: transparent;
+    margin: 4px 0;
   }
 
   .inspector-scrollbar::-webkit-scrollbar-thumb {
-    background: hsl(var(--inspector-border));
+    background: hsl(var(--inspector-border-subtle));
     border-radius: 9999px;
+    transition: background 0.2s ease;
   }
 
   .inspector-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--inspector-text-muted));
+    background: hsl(var(--inspector-accent-soft) / 0.6);
   }
 
-  /* Inspector Glass Effect */
+  /* Inspector Glass Effect - Enhanced */
   .inspector-glass {
+    background: var(--inspector-gradient-panel);
+    backdrop-filter: blur(24px) saturate(1.2);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  }
+
+  .inspector-glass-strong {
     background: linear-gradient(
       145deg,
-      hsl(var(--inspector-panel) / 0.95),
-      hsl(var(--inspector-bg) / 0.9)
+      hsl(var(--inspector-panel) / 0.98),
+      hsl(var(--inspector-bg) / 0.95)
     );
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(32px) saturate(1.3);
+    -webkit-backdrop-filter: blur(32px) saturate(1.3);
   }
 
-  /* Inspector Section Hover */
+  /* Inspector Section Hover - Smooth Gradient */
   .inspector-section-hover {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
   }
 
-  .inspector-section-hover:hover {
-    background: hsl(var(--inspector-hover));
+  .inspector-section-hover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    background: var(--inspector-gradient-hover);
+    transition: opacity 0.2s ease;
+    pointer-events: none;
   }
 
-  /* Inspector Button Pill */
+  .inspector-section-hover:hover::before {
+    opacity: 1;
+  }
+
+  /* Inspector Button Pill - Premium */
   .inspector-pill {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.25rem 0.625rem;
-    font-size: 0.65rem;
-    font-weight: 500;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     border-radius: 9999px;
-    transition: all 0.15s ease;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     background: hsl(var(--inspector-section));
     color: hsl(var(--inspector-text-muted));
-    border: 1px solid hsl(var(--inspector-border) / 0.5);
+    border: 1px solid hsl(var(--inspector-border-subtle) / 0.6);
+    box-shadow: var(--inspector-shadow-sm);
   }
 
   .inspector-pill:hover {
     background: hsl(var(--inspector-hover));
     color: hsl(var(--inspector-text));
+    border-color: hsl(var(--inspector-border) / 0.8);
+    transform: translateY(-1px);
+    box-shadow: var(--inspector-shadow);
+  }
+
+  .inspector-pill:active {
+    transform: translateY(0) scale(0.98);
   }
 
   .inspector-pill.active {
-    background: hsl(var(--inspector-active));
-    color: hsl(220 30% 7%);
+    background: var(--inspector-gradient-accent);
+    color: hsl(225 45% 8%);
     border-color: transparent;
-    box-shadow: 0 0 12px hsl(var(--inspector-active) / 0.4);
+    box-shadow: var(--inspector-glow-strong), var(--inspector-shadow);
+    font-weight: 700;
+  }
+
+  /* Inspector Input Focus Glow */
+  .inspector-input-glow:focus {
+    box-shadow: 0 0 0 3px hsl(var(--inspector-input-focus-ring)),
+                var(--inspector-shadow-sm);
+    border-color: hsl(var(--inspector-input-focus));
+  }
+
+  /* Inspector Accordion Trigger - Premium */
+  .inspector-accordion-trigger {
+    position: relative;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .inspector-accordion-trigger::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 0;
+    background: var(--inspector-gradient-accent);
+    border-radius: 0 2px 2px 0;
+    transition: height 0.2s ease, opacity 0.2s ease;
+    opacity: 0;
+  }
+
+  .inspector-accordion-trigger:hover::before,
+  .inspector-accordion-trigger[data-state="open"]::before {
+    height: 60%;
+    opacity: 1;
+  }
+
+  .inspector-accordion-trigger[data-state="open"] {
+    background: hsl(var(--inspector-section) / 0.8);
+  }
+
+  /* Inspector Slider - Premium Track & Thumb */
+  .inspector-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 9999px;
+    background: linear-gradient(
+      to right,
+      hsl(var(--inspector-active)) 0%,
+      hsl(var(--inspector-active)) var(--slider-progress, 50%),
+      hsl(var(--inspector-section)) var(--slider-progress, 50%),
+      hsl(var(--inspector-section)) 100%
+    );
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .inspector-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: hsl(var(--inspector-text));
+    border: 3px solid hsl(var(--inspector-active));
+    cursor: pointer;
+    box-shadow: 0 2px 8px hsl(0 0% 0% / 0.3),
+                0 0 0 0 hsl(var(--inspector-active) / 0);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .inspector-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px hsl(0 0% 0% / 0.4),
+                0 0 0 4px hsl(var(--inspector-active) / 0.2);
+  }
+
+  .inspector-slider::-webkit-slider-thumb:active {
+    transform: scale(1.05);
+  }
+
+  .inspector-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: hsl(var(--inspector-text));
+    border: 3px solid hsl(var(--inspector-active));
+    cursor: pointer;
+    box-shadow: 0 2px 8px hsl(0 0% 0% / 0.3);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .inspector-slider::-moz-range-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 12px hsl(0 0% 0% / 0.4),
+                0 0 0 4px hsl(var(--inspector-active) / 0.2);
+  }
+
+  /* Inspector Card - Premium with Inner Shadow */
+  .inspector-card {
+    background: var(--inspector-gradient-section);
+    border: 1px solid hsl(var(--inspector-border-subtle) / 0.5);
+    border-radius: 16px;
+    box-shadow: var(--inspector-shadow-sm),
+                var(--inspector-inner-glow);
+  }
+
+  .inspector-card:hover {
+    border-color: hsl(var(--inspector-border) / 0.7);
+    box-shadow: var(--inspector-shadow),
+                var(--inspector-inner-glow);
+  }
+
+  /* Inspector Quick Suggestion Pills - Hover Lift */
+  .inspector-suggestion-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.68rem;
+    font-weight: 500;
+    border-radius: 12px;
+    background: hsl(var(--inspector-section));
+    color: hsl(var(--inspector-text-secondary));
+    border: 1px solid hsl(var(--inspector-border-subtle) / 0.4);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .inspector-suggestion-pill:hover {
+    background: hsl(var(--inspector-hover));
+    color: hsl(var(--inspector-text));
+    transform: translateY(-2px);
+    box-shadow: var(--inspector-shadow);
+    border-color: hsl(var(--inspector-accent-soft) / 0.3);
+  }
+
+  .inspector-suggestion-pill:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  /* Inspector Ripple Effect */
+  .inspector-ripple {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .inspector-ripple::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at var(--ripple-x, 50%) var(--ripple-y, 50%),
+      hsl(var(--inspector-accent) / 0.3) 0%,
+      transparent 60%
+    );
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.4s ease, opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .inspector-ripple:active::after {
+    opacity: 1;
+    transform: scale(2);
+  }
+
+  /* Inspector Status Badge - Pulsing */
+  .inspector-status-active {
+    animation: inspector-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes inspector-pulse {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 0 0 hsl(var(--inspector-active) / 0.5);
+    }
+    50% {
+      opacity: 0.8;
+      box-shadow: 0 0 0 6px hsl(var(--inspector-active) / 0);
+    }
+  }
+
+  /* Inspector Reset Button - Destructive Hover */
+  .inspector-btn-reset {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .inspector-btn-reset:hover {
+    background: hsl(0 72% 50% / 0.15);
+    border-color: hsl(0 72% 50% / 0.4);
+    color: hsl(0 72% 65%);
+  }
+
+  /* Inspector Preview Glow Border Animation */
+  .inspector-preview-glow {
+    position: relative;
+  }
+
+  .inspector-preview-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(
+      135deg,
+      hsl(var(--inspector-active) / 0.4),
+      transparent 40%,
+      transparent 60%,
+      hsl(var(--inspector-accent) / 0.4)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .inspector-preview-glow:hover::before {
+    opacity: 1;
+    animation: inspector-border-glow 3s linear infinite;
+  }
+
+  @keyframes inspector-border-glow {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 }

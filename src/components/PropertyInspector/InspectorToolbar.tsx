@@ -37,18 +37,18 @@ const ModePillSelector = memo<{
   onChange: (value: TabMode) => void;
 }>(({ value, onChange }) => {
   return (
-    <div className="flex rounded-full bg-inspector-section/80 p-[3px] border border-inspector-border/40">
+    <div className="flex rounded-2xl bg-inspector-section/70 p-1 border border-inspector-border/25 shadow-sm">
       {TAB_OPTIONS.map((tab) => (
         <button
           key={tab}
           type="button"
           onClick={() => onChange(tab)}
           className={`
-            relative px-3 py-1.5 text-[0.65rem] font-medium tracking-wide rounded-full
+            relative px-3.5 py-1.5 text-[0.68rem] font-semibold tracking-wide rounded-xl
             transition-all duration-200 ease-out
             ${value === tab 
-              ? 'bg-inspector-text text-inspector-bg shadow-sm' 
-              : 'text-inspector-text-muted hover:text-inspector-text'
+              ? 'bg-inspector-text text-inspector-bg shadow-md scale-[1.02]' 
+              : 'text-inspector-text-muted hover:text-inspector-text hover:bg-inspector-hover/50'
             }
           `}
         >
@@ -76,15 +76,15 @@ const ActionButton = memo<{
     title={title}
     aria-label={ariaLabel}
     className="
-      inline-flex items-center justify-center rounded-lg
-      h-7 w-7 
+      inline-flex items-center justify-center rounded-xl
+      h-8 w-8 
       text-inspector-text-muted hover:text-inspector-accent
-      hover:bg-inspector-hover 
+      hover:bg-inspector-hover/70 
       active:scale-95
-      transition-all duration-150 ease-out
+      transition-all duration-200 ease-out
     "
   >
-    <Icon className="w-3.5 h-3.5" aria-hidden="true" />
+    <Icon className="w-4 h-4" aria-hidden="true" />
   </button>
 ));
 
@@ -139,9 +139,9 @@ export const InspectorToolbar: React.FC<InspectorToolbarProps> = memo(({
     <div 
       className="
         flex items-center justify-between 
-        border-b border-inspector-border/60
-        py-2.5 px-4
-        bg-gradient-to-b from-inspector-panel/90 to-inspector-bg/80
+        border-b border-inspector-border/40
+        py-3.5 px-5
+        bg-gradient-to-b from-inspector-panel to-inspector-bg/95
         backdrop-blur-sm
         flex-shrink-0
       "
@@ -149,12 +149,12 @@ export const InspectorToolbar: React.FC<InspectorToolbarProps> = memo(({
       aria-label="Property Inspector toolbar"
     >
       {/* Left side: Tag name and Mode selector */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-inspector-section/50 border border-inspector-border/30">
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-inspector-section/60 border border-inspector-border/25 shadow-sm">
           <span 
             className="
-              text-[0.7rem] uppercase font-bold 
-              tracking-[0.12em] 
+              text-[0.72rem] uppercase font-bold 
+              tracking-[0.1em] 
               text-inspector-accent
               select-none
             "
@@ -171,7 +171,7 @@ export const InspectorToolbar: React.FC<InspectorToolbarProps> = memo(({
 
       {/* Right side: Action buttons */}
       <div 
-        className="flex items-center gap-0.5" 
+        className="flex items-center gap-1" 
         role="group" 
         aria-label="Toolbar actions"
       >

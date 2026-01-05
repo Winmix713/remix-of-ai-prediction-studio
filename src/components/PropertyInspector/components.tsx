@@ -114,7 +114,7 @@ export const IconInput: React.FC<IconInputProps> = ({
   </div>
 );
 
-// Slider control with label and value display
+// Slider control with label and value display - Premium
 interface SliderControlProps {
   icon?: React.ReactNode;
   label: string;
@@ -141,35 +141,42 @@ export const SliderControl: React.FC<SliderControlProps> = ({
   valueLabel,
   showGradient = false,
   gradientColors
-}) => (
-  <div className="space-y-1">
-    <div className="flex items-center justify-between">
-      <div className="flex items-center gap-1.5 text-muted-foreground">
-        {icon}
-        <span className="text-[10px] font-medium">{label}</span>
+}) => {
+  const progress = ((value - min) / (max - min)) * 100;
+  
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2 text-inspector-text-muted">
+          {icon && (
+            <span className="p-1 rounded-md bg-inspector-active/10">
+              {icon}
+            </span>
+          )}
+          <span className="text-[0.72rem] font-semibold">{label}</span>
+        </div>
+        <span className="text-[0.72rem] font-mono text-inspector-text tabular-nums bg-inspector-section/60 px-2 py-0.5 rounded-lg">
+          {valueLabel ?? `${value}${unit}`}
+        </span>
       </div>
-      <span className="text-[10px] font-mono text-muted-foreground tabular-nums">
-        {valueLabel ?? `${value}${unit}`}
-      </span>
+      <input 
+        type="range" 
+        min={min} 
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(Number(e.target.value))}
+        className={`inspector-slider w-full ${showGradient && gradientColors ? '' : ''}`}
+        style={{
+          '--slider-progress': `${progress}%`,
+          ...(showGradient && gradientColors ? { 
+            background: gradientColors 
+          } : {})
+        } as React.CSSProperties}
+      />
     </div>
-    <input 
-      type="range" 
-      min={min} 
-      max={max}
-      step={step}
-      value={value}
-      onChange={(e) => onChange(Number(e.target.value))}
-      className={`w-full h-1.5 rounded-full appearance-none cursor-pointer slider-thumb ${
-        showGradient && gradientColors 
-          ? '' 
-          : 'bg-secondary'
-      }`}
-      style={showGradient && gradientColors ? { 
-        background: gradientColors 
-      } : undefined}
-    />
-  </div>
-);
+  );
+};
 
 // Section header with icon and title
 interface SectionHeaderProps {
@@ -265,14 +272,21 @@ export const StyledSelect: React.FC<StyledSelectProps> = ({
       id={id}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="w-full h-8 px-3 pr-8 text-xs rounded-md border border-border bg-card appearance-none cursor-pointer hover:bg-secondary transition-colors focus:outline-none focus:ring-2 focus:ring-ring"
+      className="
+        w-full h-9 px-3.5 pr-9 text-[0.75rem] rounded-xl 
+        border border-inspector-border/30 bg-inspector-section/70 
+        text-inspector-text font-medium
+        appearance-none cursor-pointer 
+        hover:bg-inspector-hover transition-all duration-200 
+        focus:outline-none focus:ring-2 focus:ring-inspector-active/40
+      "
     >
       {placeholder && <option value="" disabled>{placeholder}</option>}
       {options.map(opt => (
         <option key={opt.value} value={opt.value}>{opt.label}</option>
       ))}
     </select>
-    <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-foreground pointer-events-none" />
+    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-inspector-text-muted pointer-events-none" />
   </div>
 );
 
