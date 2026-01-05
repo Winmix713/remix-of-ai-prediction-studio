@@ -146,7 +146,7 @@ function hasActiveFilters(effects: EffectsState): boolean {
 // ============================================================================
 
 /**
- * Accordion szekció header komponens - Modern design
+ * Accordion szekció header komponens - Premium design
  */
 interface SectionHeaderProps {
   icon: React.ReactNode;
@@ -155,13 +155,13 @@ interface SectionHeaderProps {
 }
 
 const SectionHeader = memo<SectionHeaderProps>(({ icon, title, badge }) => (
-  <div className="flex items-center gap-1.5 w-full">
-    <span className="flex items-center gap-1.5 flex-1">
-      <span className="text-inspector-accent">{icon}</span>
-      <span className="text-inspector-text">{title}</span>
+  <div className="flex items-center gap-2 w-full">
+    <span className="flex items-center gap-2 flex-1">
+      <span className="text-inspector-accent/80">{icon}</span>
+      <span className="text-inspector-text font-medium">{title}</span>
     </span>
     {badge !== undefined && badge !== null && (
-      <span className="text-[9px] bg-inspector-active/20 text-inspector-active px-1.5 py-0.5 rounded">
+      <span className="text-[9px] bg-inspector-active/15 text-inspector-active px-2 py-0.5 rounded-full font-medium">
         {badge}
       </span>
     )}
@@ -189,17 +189,17 @@ const ColorsSection = memo<ColorsSectionProps>(({
   const [showPresets, setShowPresets] = useState(false);
 
   return (
-    <AccordionItem value="colors-background-section" className="border-b border-inspector-border/80">
+    <AccordionItem value="colors-background-section" className="border-b border-inspector-border/40 rounded-xl overflow-hidden">
       <AccordionTrigger 
-        className="py-1.5 text-xs font-medium text-inspector-text-muted hover:no-underline"
+        className="py-2.5 px-3 text-xs font-medium text-inspector-text-muted hover:no-underline hover:bg-inspector-hover/50 rounded-xl transition-colors"
         aria-label="Colors settings"
       >
         <SectionHeader 
-          icon={<Palette className="w-3.5 h-3.5" aria-hidden="true" />} 
+          icon={<Palette className="w-4 h-4" aria-hidden="true" />} 
           title="Colors"
         />
       </AccordionTrigger>
-      <AccordionContent className="pb-2 space-y-2">
+      <AccordionContent className="pb-3 px-3 space-y-3">
         {/* Color Pickers Grid */}
         <div className="space-y-2">
           <div className="grid grid-cols-2 gap-2" aria-label="Color pickers">
@@ -244,9 +244,9 @@ const ColorsSection = memo<ColorsSectionProps>(({
           <button
             type="button"
             onClick={() => setShowPresets(!showPresets)}
-            className="inline-flex items-center justify-center w-full h-7 text-[0.7rem] gap-1 rounded-lg border border-inspector-border bg-inspector-section hover:bg-inspector-hover text-inspector-text font-medium transition-colors"
+            className="inline-flex items-center justify-center w-full h-8 text-[0.68rem] gap-1.5 rounded-xl border border-inspector-border/40 bg-inspector-section/50 hover:bg-inspector-hover text-inspector-text font-medium transition-all duration-200"
           >
-            <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+            <Sparkles className="w-3.5 h-3.5 text-inspector-accent" aria-hidden="true" />
             {showPresets ? 'Hide' : 'Show'} Presets
           </button>
 
@@ -308,17 +308,17 @@ const BorderRadiusSection = memo<BorderRadiusSectionProps>(({
   }, [borderRadiusTab, onRadiusChange]);
 
   return (
-    <AccordionItem value="border-radius-section" className="border-b border-inspector-border/80">
+    <AccordionItem value="border-radius-section" className="border-b border-inspector-border/40 rounded-xl overflow-hidden">
       <AccordionTrigger 
-        className="py-1.5 text-xs font-medium text-inspector-text-muted hover:no-underline"
+        className="py-2.5 px-3 text-xs font-medium text-inspector-text-muted hover:no-underline hover:bg-inspector-hover/50 rounded-xl transition-colors"
         aria-label="Border and radius settings"
       >
         <SectionHeader 
-          icon={<Circle className="w-3.5 h-3.5" aria-hidden="true" />} 
+          icon={<Circle className="w-4 h-4" aria-hidden="true" />} 
           title="Border & Radius"
         />
       </AccordionTrigger>
-      <AccordionContent className="pb-2 space-y-3">
+      <AccordionContent className="pb-3 px-3 space-y-3">
         {/* Border Width & Style */}
         <div className="space-y-1">
           <label className="text-[0.7rem] text-inspector-text-muted block">Border</label>
@@ -341,20 +341,23 @@ const BorderRadiusSection = memo<BorderRadiusSectionProps>(({
 
         {/* Border Radius - Modern Tab Selector */}
         <div className="space-y-1">
-          <label className="text-[0.7rem] text-inspector-text-muted block" id="border-radius-label">
+          <label className="text-[0.68rem] text-inspector-text-muted block font-medium" id="border-radius-label">
             Corner Radius
           </label>
-          <div className="flex border border-inspector-border rounded-lg overflow-hidden h-7 bg-inspector-section">
+          <div className="flex bg-inspector-section/50 rounded-xl overflow-hidden h-8 border border-inspector-border/30">
             {(['all', 'tl', 'tr', 'br', 'bl'] as const).map(tab => (
               <button
                 key={tab}
                 type="button"
                 onClick={() => onBorderRadiusTabChange(tab)}
-                className={`flex-1 flex items-center justify-center text-[0.7rem] transition-colors ${
-                  borderRadiusTab === tab
-                    ? 'bg-inspector-active text-white'
-                    : 'text-inspector-text-muted hover:bg-inspector-hover'
-                }`}
+                className={`
+                  flex-1 flex items-center justify-center text-[0.65rem] font-medium
+                  transition-all duration-200
+                  ${borderRadiusTab === tab
+                    ? 'bg-inspector-text text-inspector-bg'
+                    : 'text-inspector-text-muted hover:text-inspector-text hover:bg-inspector-hover/50'
+                  }
+                `}
                 title={tab === 'all' ? 'All Sides' : `${tab.toUpperCase()} corner`}
               >
                 {tab === 'all' ? 'All' : tab.toUpperCase()}
@@ -374,15 +377,15 @@ const BorderRadiusSection = memo<BorderRadiusSectionProps>(({
         </div>
 
         {/* Radius Presets */}
-        <div className="space-y-1">
-          <span className="text-[9px] text-inspector-text-muted block">Quick Radius:</span>
-          <div className="flex flex-wrap gap-1">
+        <div className="space-y-2">
+          <span className="text-[0.6rem] text-inspector-text-muted block uppercase tracking-wider font-medium">Quick Radius</span>
+          <div className="flex flex-wrap gap-1.5">
             {RADIUS_PRESETS.map(preset => (
               <button
                 key={preset.name}
                 type="button"
                 onClick={() => handlePresetRadius(preset.value)}
-                className="px-2 py-1 text-[9px] rounded-lg bg-inspector-section hover:bg-inspector-hover text-inspector-text transition-colors"
+                className="px-2.5 py-1.5 text-[0.6rem] rounded-lg bg-inspector-section/60 hover:bg-inspector-hover border border-inspector-border/30 text-inspector-text font-medium transition-all duration-200"
               >
                 {preset.name}
               </button>
@@ -409,19 +412,19 @@ const ShadowOpacitySection = memo<ShadowOpacitySectionProps>(({
   onEffectChange
 }) => {
   return (
-    <AccordionItem value="shadow-opacity-section" className="border-b border-inspector-border/80">
+    <AccordionItem value="shadow-opacity-section" className="border-b border-inspector-border/40 rounded-xl overflow-hidden">
       <AccordionTrigger 
-        className="py-1.5 text-xs font-medium text-inspector-text-muted hover:no-underline"
+        className="py-2.5 px-3 text-xs font-medium text-inspector-text-muted hover:no-underline hover:bg-inspector-hover/50 rounded-xl transition-colors"
         aria-label="Shadow and opacity settings"
       >
         <SectionHeader 
-          icon={<Eye className="w-3.5 h-3.5" aria-hidden="true" />} 
+          icon={<Eye className="w-4 h-4" aria-hidden="true" />} 
           title="Shadow & Opacity"
         />
       </AccordionTrigger>
-      <AccordionContent className="pb-2 space-y-2">
+      <AccordionContent className="pb-3 px-3 space-y-3">
         <div>
-          <label htmlFor="shadow-select" className="text-[0.7rem] text-inspector-text-muted block mb-1">
+          <label htmlFor="shadow-select" className="text-[0.68rem] text-inspector-text-muted block mb-1.5 font-medium">
             Drop Shadow
           </label>
           <div className="relative">
@@ -429,13 +432,20 @@ const ShadowOpacitySection = memo<ShadowOpacitySectionProps>(({
               id="shadow-select"
               value={effects.shadow}
               onChange={(e) => onEffectChange('shadow', e.target.value)}
-              className="appearance-none cursor-pointer hover:bg-inspector-hover transition-colors focus:outline-none focus:ring-2 focus:ring-inspector-active/70 text-xs text-inspector-text bg-inspector-section w-full h-8 border-inspector-border border rounded-lg pr-8 pl-3"
+              className="
+                appearance-none cursor-pointer 
+                hover:bg-inspector-hover transition-all duration-200 
+                focus:outline-none focus:ring-2 focus:ring-inspector-active/50
+                text-xs text-inspector-text bg-inspector-section/60 
+                w-full h-9 border-inspector-border/40 border rounded-xl 
+                pr-8 pl-3
+              "
             >
               {SHADOW_OPTIONS.map(opt => (
                 <option key={opt.value} value={opt.value}>{opt.label}</option>
               ))}
             </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-inspector-text-muted pointer-events-none" />
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-inspector-text-muted pointer-events-none" />
           </div>
         </div>
         
@@ -485,18 +495,18 @@ const FiltersSection = memo<FiltersSectionProps>(({
   const hasFilters = useMemo(() => hasActiveFilters(effects), [effects]);
 
   return (
-    <AccordionItem value="filters-section" className="border-b border-inspector-border/80">
+    <AccordionItem value="filters-section" className="border-b border-inspector-border/40 rounded-xl overflow-hidden">
       <AccordionTrigger 
-        className="py-1.5 text-xs font-medium text-inspector-text-muted hover:no-underline"
+        className="py-2.5 px-3 text-xs font-medium text-inspector-text-muted hover:no-underline hover:bg-inspector-hover/50 rounded-xl transition-colors"
         aria-label="Filter effects settings"
       >
         <SectionHeader 
-          icon={<Contrast className="w-3.5 h-3.5" aria-hidden="true" />} 
+          icon={<Contrast className="w-4 h-4" aria-hidden="true" />} 
           title="Filters"
           badge={hasFilters ? '✓' : undefined}
         />
       </AccordionTrigger>
-      <AccordionContent className="pb-2 space-y-3">
+      <AccordionContent className="pb-3 px-3 space-y-3">
         {/* Blur Filters */}
         <div className="space-y-1">
           <label className="text-[0.7rem] text-inspector-text-muted block">Blur</label>

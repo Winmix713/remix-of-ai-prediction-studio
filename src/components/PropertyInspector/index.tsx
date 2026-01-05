@@ -419,43 +419,46 @@ const EditorView = memo<EditorViewProps>(({
 }) => {
   return (
     <div className="space-y-3">
-      {/* Breakpoint Selector */}
-      <div className="flex items-center justify-between mb-2.5">
-        <div className="flex border border-inspector-border rounded-full overflow-hidden h-7 bg-inspector-section/70">
+      {/* Breakpoint Selector - Premium Design */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex bg-inspector-section/60 rounded-full p-[3px] border border-inspector-border/40">
           {BREAKPOINTS.map((bp) => (
             <button
               key={bp.value}
               type="button"
               onClick={() => onBreakpointChange(bp.value as Breakpoint)}
-              className={`px-2 text-[0.7rem] font-medium transition-colors ${
-                currentBreakpoint === bp.value
-                  ? 'bg-inspector-active text-white'
-                  : 'text-inspector-text-muted hover:bg-inspector-hover'
-              }`}
+              className={`
+                px-2.5 py-1 text-[0.65rem] font-medium rounded-full
+                transition-all duration-200 ease-out
+                ${currentBreakpoint === bp.value
+                  ? 'bg-inspector-text text-inspector-bg shadow-sm'
+                  : 'text-inspector-text-muted hover:text-inspector-text'
+                }
+              `}
             >
               {bp.label}
             </button>
           ))}
         </div>
-        <span className="text-[0.7rem] text-inspector-text-muted ml-2 flex items-center gap-1">
-          <Laptop className="w-3.5 h-3.5" aria-hidden="true" />
-          <span>{currentBreakpoint === 'base' ? 'All' : currentBreakpoint.toUpperCase()}</span>
+        <div className="flex items-center gap-1.5 text-[0.65rem] text-inspector-text-muted bg-inspector-section/40 px-2 py-1 rounded-lg border border-inspector-border/30">
+          <Laptop className="w-3 h-3" aria-hidden="true" />
+          <span className="font-medium">{currentBreakpoint === 'base' ? 'All' : currentBreakpoint.toUpperCase()}</span>
           {hasBreakpointOverrides(currentBreakpoint) && (
             <span 
-              className="w-1.5 h-1.5 rounded-full bg-inspector-accent" 
+              className="w-1.5 h-1.5 rounded-full bg-inspector-accent animate-pulse" 
               title="Has overrides"
               aria-label="Has breakpoint overrides"
             />
           )}
-        </span>
+        </div>
       </div>
 
-      {/* Category Tabs - Segmented Control Style */}
-      <div className="w-full mb-2.5">
+      {/* Category Tabs - Premium Segmented Control */}
+      <div className="w-full mb-3">
         <div 
           role="tablist" 
           aria-orientation="horizontal" 
-          className="grid grid-cols-4 h-8 w-full rounded-full bg-inspector-section/80 border border-inspector-border text-inspector-text-muted text-[0.7rem] px-0.5 py-0.5"
+          className="grid grid-cols-4 h-9 w-full rounded-2xl bg-inspector-section/60 border border-inspector-border/40 p-[3px] gap-0.5"
         >
           {(['appearance', 'layout', 'typography', 'code'] as const).map((tab) => (
             <button
@@ -464,11 +467,15 @@ const EditorView = memo<EditorViewProps>(({
               role="tab"
               aria-selected={category === tab}
               onClick={() => onCategoryChange(tab)}
-              className={`inline-flex items-center justify-center whitespace-nowrap rounded-full font-medium tracking-tight transition-all text-[0.7rem] ${
-                category === tab
+              className={`
+                inline-flex items-center justify-center whitespace-nowrap rounded-xl 
+                font-medium text-[0.68rem] tracking-tight
+                transition-all duration-200 ease-out
+                ${category === tab
                   ? 'bg-inspector-text text-inspector-bg shadow-sm'
-                  : 'hover:bg-inspector-hover hover:text-inspector-text'
-              }`}
+                  : 'text-inspector-text-muted hover:text-inspector-text hover:bg-inspector-hover/50'
+                }
+              `}
             >
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </button>
@@ -534,14 +541,20 @@ interface InspectorFooterProps {
  */
 const InspectorFooter = memo<InspectorFooterProps>(({ elementId, onReset, onApply }) => {
   return (
-    <footer className="p-3 border-t border-inspector-border bg-inspector-bg/80 flex justify-between items-center">
-      <span className="text-[0.7rem] text-inspector-text-muted font-mono tracking-tight">
+    <footer className="px-4 py-3 border-t border-inspector-border/50 bg-gradient-to-b from-inspector-bg/90 to-inspector-bg flex justify-between items-center">
+      <span className="text-[0.68rem] text-inspector-text-muted font-mono tracking-tight bg-inspector-section/40 px-2 py-0.5 rounded border border-inspector-border/30">
         #{elementId || 'element'}
       </span>
       <div className="flex gap-2">
         <button 
           type="button"
-          className="inline-flex items-center justify-center rounded-full h-7 px-3 text-[0.7rem] font-medium border border-inspector-border bg-inspector-section text-inspector-text hover:bg-inspector-hover transition-colors"
+          className="
+            inline-flex items-center justify-center rounded-xl h-7 px-4 
+            text-[0.68rem] font-medium 
+            border border-inspector-border/50 bg-inspector-section/60 
+            text-inspector-text hover:bg-inspector-hover hover:border-inspector-border
+            transition-all duration-200
+          "
           onClick={onReset}
         >
           Reset
@@ -549,7 +562,13 @@ const InspectorFooter = memo<InspectorFooterProps>(({ elementId, onReset, onAppl
         {onApply && (
           <button 
             type="button"
-            className="inline-flex items-center justify-center rounded-full h-7 px-3 text-[0.7rem] font-medium bg-inspector-active text-white hover:bg-inspector-active/90 transition-colors"
+            className="
+              inline-flex items-center justify-center rounded-xl h-7 px-4 
+              text-[0.68rem] font-medium 
+              bg-inspector-active text-inspector-bg 
+              hover:shadow-lg hover:shadow-inspector-active/30
+              transition-all duration-200
+            "
             onClick={onApply}
           >
             Apply
@@ -727,7 +746,17 @@ export const PropertyInspector: React.FC = () => {
       aria-label="Property inspector panel"
     >
       <div 
-        className="bg-inspector-bg/95 border border-inspector-border rounded-3xl shadow-xl shadow-black/40 max-h-[90vh] flex flex-col overflow-hidden backdrop-blur-sm"
+        className="
+          bg-gradient-to-b from-inspector-panel/95 via-inspector-bg/98 to-inspector-bg
+          border border-inspector-border/60 
+          rounded-3xl 
+          shadow-2xl shadow-black/50
+          max-h-[90vh] 
+          flex flex-col 
+          overflow-hidden 
+          backdrop-blur-xl
+          ring-1 ring-inset ring-white/[0.03]
+        "
         role="region"
         aria-label="Property Inspector"
       >
@@ -743,7 +772,7 @@ export const PropertyInspector: React.FC = () => {
         />
 
         {/* Main Content */}
-        <div className="p-3.5 sm:p-4 overflow-y-auto flex-1 bg-inspector-panel/60 inspector-scrollbar">
+        <div className="p-4 overflow-y-auto flex-1 inspector-scrollbar">
           {activeTab === 'PROMPT' && (
             <AIPromptForm
               promptValue={aiPromptInput}

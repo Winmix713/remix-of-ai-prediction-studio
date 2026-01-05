@@ -3,7 +3,9 @@ import {
   RotateCcw, 
   LayoutTemplate, 
   Bookmark, 
-  FileCode 
+  FileCode,
+  Monitor,
+  Smartphone
 } from 'lucide-react';
 import type { TabMode } from './types';
 
@@ -27,25 +29,25 @@ interface ToolbarAction {
 const TAB_OPTIONS: TabMode[] = ['EDIT', 'PROMPT', 'CODE'];
 
 /**
- * Modern pill-style tab selector with sliding active indicator
+ * Modern pill-style tab selector with elegant styling
  */
 const ModePillSelector = memo<{
   value: TabMode;
   onChange: (value: TabMode) => void;
 }>(({ value, onChange }) => {
   return (
-    <div className="flex rounded-full border border-inspector-border bg-inspector-panel/80 p-0.5 backdrop-blur-sm">
+    <div className="flex rounded-full bg-inspector-section/80 p-[3px] border border-inspector-border/40">
       {TAB_OPTIONS.map((tab) => (
         <button
           key={tab}
           type="button"
           onClick={() => onChange(tab)}
           className={`
-            relative px-3 py-1 text-[0.65rem] font-semibold tracking-wide rounded-full
+            relative px-3 py-1.5 text-[0.65rem] font-medium tracking-wide rounded-full
             transition-all duration-200 ease-out
             ${value === tab 
-              ? 'bg-inspector-active text-inspector-bg shadow-sm' 
-              : 'text-inspector-text-muted hover:text-inspector-text hover:bg-inspector-hover/50'
+              ? 'bg-inspector-text text-inspector-bg shadow-sm' 
+              : 'text-inspector-text-muted hover:text-inspector-text'
             }
           `}
         >
@@ -75,7 +77,7 @@ const ActionButton = memo<{
     className="
       inline-flex items-center justify-center rounded-lg
       h-7 w-7 
-      text-inspector-text-muted hover:text-inspector-text
+      text-inspector-text-muted hover:text-inspector-accent
       hover:bg-inspector-hover 
       active:scale-95
       transition-all duration-150 ease-out
@@ -135,9 +137,9 @@ export const InspectorToolbar: React.FC<InspectorToolbarProps> = memo(({
     <div 
       className="
         flex items-center justify-between 
-        border-b border-inspector-border 
-        py-2 px-3.5 sm:px-4 
-        bg-inspector-panel/80 
+        border-b border-inspector-border/60
+        py-2.5 px-4
+        bg-gradient-to-b from-inspector-panel/90 to-inspector-bg/80
         backdrop-blur-sm
         flex-shrink-0
       "
@@ -146,17 +148,19 @@ export const InspectorToolbar: React.FC<InspectorToolbarProps> = memo(({
     >
       {/* Left side: Tag name and Mode selector */}
       <div className="flex items-center gap-3">
-        <h3 
-          className="
-            text-[0.7rem] uppercase font-bold 
-            tracking-[0.15em] 
-            text-inspector-active 
-            select-none
-          "
-          aria-label={`Current element: ${currentTag}`}
-        >
-          {currentTag}
-        </h3>
+        <div className="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-inspector-section/50 border border-inspector-border/30">
+          <span 
+            className="
+              text-[0.7rem] uppercase font-bold 
+              tracking-[0.12em] 
+              text-inspector-accent
+              select-none
+            "
+            aria-label={`Current element: ${currentTag}`}
+          >
+            {currentTag}
+          </span>
+        </div>
         <ModePillSelector 
           value={activeTab} 
           onChange={handleTabChange}

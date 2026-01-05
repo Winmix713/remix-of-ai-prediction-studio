@@ -188,32 +188,33 @@
     --glass-border: hsl(220 15% 25% / 0.5);
 
     /* ============================================
-       PROPERTY INSPECTOR - MODERN DESIGN TOKENS
+       PROPERTY INSPECTOR - PREMIUM DARK DESIGN
        ============================================ */
     
-    /* Inspector Panel Colors */
-    --inspector-bg: 222 47% 8%;
-    --inspector-panel: 220 20% 13%;
-    --inspector-section: 220 20% 16%;
-    --inspector-border: 220 20% 22%;
-    --inspector-hover: 220 20% 20%;
-    --inspector-active: 200 100% 50%;
-    --inspector-text: 220 9% 93%;
-    --inspector-text-muted: 220 9% 55%;
-    --inspector-accent: 200 100% 65%;
+    /* Inspector Panel Colors - Deep Navy Theme */
+    --inspector-bg: 222 47% 7%;
+    --inspector-panel: 220 35% 10%;
+    --inspector-section: 220 30% 14%;
+    --inspector-border: 220 30% 20%;
+    --inspector-hover: 220 35% 18%;
+    --inspector-active: 195 100% 50%;
+    --inspector-text: 210 20% 92%;
+    --inspector-text-muted: 210 15% 45%;
+    --inspector-accent: 195 100% 60%;
     
     /* Inspector Interactive States */
-    --inspector-btn-bg: 220 20% 15%;
-    --inspector-btn-hover: 220 20% 20%;
-    --inspector-btn-active: 200 100% 50%;
-    --inspector-input-bg: 220 20% 12%;
-    --inspector-input-border: 220 20% 25%;
-    --inspector-input-focus: 200 100% 50%;
+    --inspector-btn-bg: 220 30% 12%;
+    --inspector-btn-hover: 220 30% 18%;
+    --inspector-btn-active: 195 100% 50%;
+    --inspector-input-bg: 220 35% 9%;
+    --inspector-input-border: 220 25% 22%;
+    --inspector-input-focus: 195 100% 50%;
     
     /* Inspector Shadows & Effects */
-    --inspector-shadow: 0 8px 32px -8px hsl(0 0% 0% / 0.4);
-    --inspector-glow: 0 0 24px hsl(200 100% 50% / 0.15);
-    --inspector-glow-strong: 0 0 40px hsl(200 100% 50% / 0.25);
+    --inspector-shadow: 0 12px 48px -12px hsl(0 0% 0% / 0.5);
+    --inspector-glow: 0 0 30px hsl(195 100% 50% / 0.12);
+    --inspector-glow-strong: 0 0 50px hsl(195 100% 50% / 0.2);
+    --inspector-inner-glow: inset 0 1px 0 hsl(220 30% 25% / 0.5);
   }
 }
 
@@ -667,5 +668,71 @@
 
   .transition-bounce {
     transition: var(--transition-bounce);
+  }
+
+  /* Inspector Custom Scrollbar */
+  .inspector-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .inspector-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .inspector-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--inspector-border));
+    border-radius: 9999px;
+  }
+
+  .inspector-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--inspector-text-muted));
+  }
+
+  /* Inspector Glass Effect */
+  .inspector-glass {
+    background: linear-gradient(
+      145deg,
+      hsl(var(--inspector-panel) / 0.95),
+      hsl(var(--inspector-bg) / 0.9)
+    );
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Inspector Section Hover */
+  .inspector-section-hover {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .inspector-section-hover:hover {
+    background: hsl(var(--inspector-hover));
+  }
+
+  /* Inspector Button Pill */
+  .inspector-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    border-radius: 9999px;
+    transition: all 0.15s ease;
+    background: hsl(var(--inspector-section));
+    color: hsl(var(--inspector-text-muted));
+    border: 1px solid hsl(var(--inspector-border) / 0.5);
+  }
+
+  .inspector-pill:hover {
+    background: hsl(var(--inspector-hover));
+    color: hsl(var(--inspector-text));
+  }
+
+  .inspector-pill.active {
+    background: hsl(var(--inspector-active));
+    color: hsl(220 30% 7%);
+    border-color: transparent;
+    box-shadow: 0 0 12px hsl(var(--inspector-active) / 0.4);
   }
 }
